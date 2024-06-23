@@ -70,7 +70,39 @@ class Quantum:
     def loggCircuit(self):
         pass
 
-    def run(self):
+    def isInCircuit(self):
         pass
+
+    def useGate(self, gateElement):
+        gate = gateElement[0]
+
+        # Gate element: ("-", 1, 2, 3)
+        if (gate == "h"):
+            self.circuit.h(self.regQ[gateElement[1]]) # ("h", 1,)
+        elif (gate == "x"):
+            self.circuit.h(self.regQ[gateElement[1]]) # ("x", 1,)
+        elif (gate == "z"):
+            self.circuit.h(self.regQ[gateElement[1]]) # ("z", 1,)
+        elif (gate == "ry"):
+            self.circuit.ry(2*gateElement[2], self.regQ[gateElement[1]]) # ("ry", 1, 45)
+        elif (gate == "cx"):
+            self.circuit.cx(self.regQ[gateElement[1]], self.regQ[gateElement[2]]) # ("cx", 1, 2)
+        elif (gate == "cu3"):
+            self.circuit.cu3(self.regQ[gateElement[3]], 0, 0, self.regQ[gateElement[1]], self.regQ[gateElement[2]]) # ("cu3", 1, 2, 45)
+        elif (gate == "ccx"):
+            self.circuit.ccx(self.regQ[gateElement[1]], self.regQ[gateElement[2]], self.regQ[gateElement[3]]) # ("ccx", 1, 2, 3)
+
+        else:
+            print("Doesn't found gate: " + gate)
+            return None
+        return gate
+
+    def run(self):
+        for el in gStack:
+            result = useGate(el)
+            if result == None:
+                return
+            else:
+                print("Operator - " + result + " - used.")
 
 
