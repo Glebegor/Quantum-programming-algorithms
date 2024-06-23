@@ -43,15 +43,23 @@ print(counts)
 
 
 
-# Proecting Quantum class
+# Projecting Quantum class
+class CommandsStack:
+    def __init__(self):
+        self.stack = list()
 
-class QuantumService:
-    def __init__(self, cStk, qbC):
-        self.commandsStack = cStk # Stack of the commands
-        self.qubitsCount = qbC
+class Quantum:
+    def __init__(self, cStack, qbCount, imgFolder):
+        self.qiskitVersion = qiskit.__version__
+        self.imagesPath = imgFolder # Folder to Images
+
+        self.commandsStack = cStack # Stack of the commands
+        self.qubitsCount = qbCount # count of the qubits
 
         # Registers
-        self.regQ = qiskit.QuantumRegister(qbC) # Quantum
-        self.regC = qiskit.ClassicalRegister(qbC) # Classic
+        self.regQ = qiskit.QuantumRegister(self.qubitsCount) # Quantum
+        self.regC = qiskit.ClassicalRegister(self.qubitsCount) # Classic
+
+        self.circuit = qiskit.QuantumCircuit(self.regQ, self.regC) # Circuit
 
 
