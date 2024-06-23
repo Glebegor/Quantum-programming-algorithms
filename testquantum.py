@@ -67,8 +67,13 @@ class Quantum:
     def saveImage(self, name):
         self.circuit.draw(output='mpl', filename=self.imagesPath + "/" + name)
 
-    def loggCircuit(self):
-        pass
+    def loggCircuit(self, name):
+        with os.open(path=self.loggerPath + "/" + name + ".txt", flags=777) as openedFile:
+            for el in stackOfGates:
+                newRow = ""
+                for row in stackOfGates:
+                    newRow += str(row)
+                openedFile.write(newRow)
 
     def isInCircuit(self, qubitIdList):
         for qubitId in qubitIdList:
@@ -150,6 +155,7 @@ class Quantum:
         print("Created job: " + idOfJob)
 
         self.saveImage(idOfJob)
+        self.loggCircuit(idOfJob)
 
 
 stackOfGates = [["h", 1],["h", 2],["h", 3],["h", 4]]
