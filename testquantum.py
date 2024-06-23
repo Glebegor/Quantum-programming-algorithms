@@ -44,16 +44,16 @@ print(counts)
 
 
 # Projecting Quantum class
-class CommandsStack:
+class GatesStack:
     def __init__(self):
         self.stack = list()
 
 class Quantum:
-    def __init__(self, cStack, qbCount, imgFolder):
+    def __init__(self, gStack, qbCount, imgFolder):
         self.qiskitVersion = qiskit.__version__
         self.imagesPath = imgFolder # Folder to Images
 
-        self.commandsStack = cStack # Stack of the commands
+        self.gatesStack = gStack # Stack of the gates
         self.qubitsCount = qbCount # count of the qubits
 
         # Registers
@@ -61,5 +61,16 @@ class Quantum:
         self.regC = qiskit.ClassicalRegister(self.qubitsCount, "ClassicRegister") # Classic
 
         self.circuit = qiskit.QuantumCircuit(self.regQ, self.regC) # Circuit
+
+        self.gates = ["h", "x", "z", "ry", "cx", "cu3", "ccx"]
+
+    def saveImage(self):
+        pass
+
+    def loggCircuit(self):
+        pass
+
+    def run(self):
+        pass
 
 
