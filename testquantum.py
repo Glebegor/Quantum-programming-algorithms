@@ -35,3 +35,23 @@ job = qiskit_aer.AerSimulator(method='automatic').run(circuit,shots=1024)
 # get the result
 counts = job.result().get_counts(circuit)
 print(counts)
+
+
+
+
+
+
+
+
+# Proecting Quantum class
+
+class QuantumService:
+    def __init__(self, cStk, qbC):
+        self.commandsStack = cStk # Stack of the commands
+        self.qubitsCount = qbC
+
+        # Registers
+        self.regQ = qiskit.QuantumRegister(qbC) # Quantum
+        self.regC = qiskit.ClassicalRegister(qbC) # Classic
+
+
