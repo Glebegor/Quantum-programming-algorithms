@@ -76,29 +76,58 @@ class Quantum:
                 return False
         return True
 
+    # Using of the gates
     def useGate(self, gateElement):
         gate = gateElement[0]
 
         if (gate == "h"):
-            isInCircuit(gate[1:])
+            if len(gateElement) != 2:
+                print("Gate h has 1 parametr")
+                return
+
+            self.isInCircuit(gate[1:])
             self.circuit.h(self.regQ[gateElement[1]]) # ("h", 1,)
         elif (gate == "x"):
-            isInCircuit(gate[1:])
+            if len(gateElement) != 2:
+                print("Gate x has 1 parametr")
+                return
+
+            self.isInCircuit(gate[1:])
             self.circuit.h(self.regQ[gateElement[1]]) # ("x", 1,)
         elif (gate == "z"):
-            isInCircuit(gate[1:])
+            if len(gateElement) != 2:
+                print("Gate z has 1 parametr")
+                return
+
+            self.isInCircuit(gate[1:])
             self.circuit.h(self.regQ[gateElement[1]]) # ("z", 1,)
         elif (gate == "ry"):
-            isInCircuit(gate[1:2])
+            if len(gateElement) != 3:
+                print("Gate ry has 2 parametr")
+                return
+
+            self.isInCircuit(gate[1:2])
             self.circuit.ry(2*gateElement[2], self.regQ[gateElement[1]]) # ("ry", 1, 45)
         elif (gate == "cx"):
-            isInCircuit(gate[1:])
+            if len(gateElement) != 2:
+                print("Gate cx has 2 parametr")
+                return
+
+            self.isInCircuit(gate[1:])
             self.circuit.cx(self.regQ[gateElement[1]], self.regQ[gateElement[2]]) # ("cx", 1, 2)
         elif (gate == "cu3"):
-            isInCircuit(gate[1:3])
+            if len(gateElement) != 4:
+                print("Gate cu3 has 3 parametr")
+                return
+
+            self.isInCircuit(gate[1:3])
             self.circuit.cu3(self.regQ[gateElement[3]], 0, 0, self.regQ[gateElement[1]], self.regQ[gateElement[2]]) # ("cu3", 1, 2, 45)
         elif (gate == "ccx"):
-            isInCircuit(gate[1:])
+            if len(gateElement) != 4:
+                print("Gate ccx has 3 parametr")
+                return
+
+            self.isInCircuit(gate[1:])
             self.circuit.ccx(self.regQ[gateElement[1]], self.regQ[gateElement[2]], self.regQ[gateElement[3]]) # ("ccx", 1, 2, 3)
         else:
             print("Doesn't found gate: " + gate)
@@ -106,11 +135,14 @@ class Quantum:
         return gate
 
     def run(self):
-        for el in gStack:
-            result = useGate(el)
+        for el in self.gatesStack:
+            result = self.useGate(el)
             if result == None:
                 return
             else:
                 print("Operator - " + result + " - used.")
 
+stackOfGates = [["h", 1],["r", 2],["h", 3],["h", 4]]
+quantum = Quantum(stackOfGates, 10, "./Images")
 
+quantum.run()
