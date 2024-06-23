@@ -90,49 +90,49 @@ class Quantum:
                 print("Gate h has 1 param.")
                 return
 
-            self.isInCircuit(gate[1:])
+            self.isInCircuit(gateElement[1:])
             self.circuit.h(self.regQ[gateElement[1]]) # ("h", 1,)
         elif (gate == "x"):
             if len(gateElement) != 2:
                 print("Gate x has 1 param.")
                 return
 
-            self.isInCircuit(gate[1:])
+            self.isInCircuit(gateElement[1:])
             self.circuit.h(self.regQ[gateElement[1]]) # ("x", 1,)
         elif (gate == "z"):
             if len(gateElement) != 2:
                 print("Gate z has 1 param.")
                 return
 
-            self.isInCircuit(gate[1:])
+            self.isInCircuit(gateElement[1:])
             self.circuit.h(self.regQ[gateElement[1]]) # ("z", 1,)
         elif (gate == "ry"):
             if len(gateElement) != 3:
                 print("Gate ry has 2 params.")
                 return
 
-            self.isInCircuit(gate[1:2])
+            self.isInCircuit(gateElement[1:2])
             self.circuit.ry(2*gateElement[2], self.regQ[gateElement[1]]) # ("ry", 1, 45)
         elif (gate == "cx"):
-            if len(gateElement) != 2:
+            if len(gateElement) != 3:
                 print("Gate cx has 2 params.")
                 return
 
-            self.isInCircuit(gate[1:])
+            self.isInCircuit(gateElement[1:3])
             self.circuit.cx(self.regQ[gateElement[1]], self.regQ[gateElement[2]]) # ("cx", 1, 2)
         elif (gate == "cu3"):
             if len(gateElement) != 4:
                 print("Gate cu3 has 3 params.")
                 return
 
-            self.isInCircuit(gate[1:3])
+            self.isInCircuit(gateElement[1:3])
             self.circuit.cu3(self.regQ[gateElement[3]], 0, 0, self.regQ[gateElement[1]], self.regQ[gateElement[2]]) # ("cu3", 1, 2, 45)
         elif (gate == "ccx"):
             if len(gateElement) != 4:
                 print("Gate ccx has 3 params.")
                 return
 
-            self.isInCircuit(gate[1:])
+            self.isInCircuit(gateElement[1:4])
             self.circuit.ccx(self.regQ[gateElement[1]], self.regQ[gateElement[2]], self.regQ[gateElement[3]]) # ("ccx", 1, 2, 3)
         else:
             print("Doesn't found gate: " + gate)
@@ -155,10 +155,10 @@ class Quantum:
         print("Created job: " + idOfJob)
 
         self.saveImage(idOfJob)
-        self.loggCircuit(idOfJob)
+        # self.loggCircuit(idOfJob)
 
 
-stackOfGates = [["h", 1],["h", 2],["h", 3],["h", 4]]
-quantum = Quantum(stackOfGates, 10)
+stackOfGates = [["h", 1],["h", 2],["h", 3],["ccx", 4, 1, 2]]
+quantum = Quantum(stackOfGates, 5)
 
 quantum.run()
