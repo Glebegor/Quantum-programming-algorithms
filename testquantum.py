@@ -70,28 +70,36 @@ class Quantum:
     def loggCircuit(self):
         pass
 
-    def isInCircuit(self):
-        pass
+    def isInCircuit(self, qubitIdList):
+        for qubitId in qubitIdList:
+            if not (qubitId > 0 and qubitId < self.qubitsCount):
+                return False
+        return True
 
     def useGate(self, gateElement):
         gate = gateElement[0]
 
-        # Gate element: ("-", 1, 2, 3)
         if (gate == "h"):
+            isInCircuit(gate[1:])
             self.circuit.h(self.regQ[gateElement[1]]) # ("h", 1,)
         elif (gate == "x"):
+            isInCircuit(gate[1:])
             self.circuit.h(self.regQ[gateElement[1]]) # ("x", 1,)
         elif (gate == "z"):
+            isInCircuit(gate[1:])
             self.circuit.h(self.regQ[gateElement[1]]) # ("z", 1,)
         elif (gate == "ry"):
+            isInCircuit(gate[1:2])
             self.circuit.ry(2*gateElement[2], self.regQ[gateElement[1]]) # ("ry", 1, 45)
         elif (gate == "cx"):
+            isInCircuit(gate[1:])
             self.circuit.cx(self.regQ[gateElement[1]], self.regQ[gateElement[2]]) # ("cx", 1, 2)
         elif (gate == "cu3"):
+            isInCircuit(gate[1:3])
             self.circuit.cu3(self.regQ[gateElement[3]], 0, 0, self.regQ[gateElement[1]], self.regQ[gateElement[2]]) # ("cu3", 1, 2, 45)
         elif (gate == "ccx"):
+            isInCircuit(gate[1:])
             self.circuit.ccx(self.regQ[gateElement[1]], self.regQ[gateElement[2]], self.regQ[gateElement[3]]) # ("ccx", 1, 2, 3)
-
         else:
             print("Doesn't found gate: " + gate)
             return None
