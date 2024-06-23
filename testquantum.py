@@ -57,8 +57,8 @@ class Quantum:
         self.qubitsCount = qbCount # count of the qubits
 
         # Registers
-        self.regQ = qiskit.QuantumRegister(self.qubitsCount) # Quantum
-        self.regC = qiskit.ClassicalRegister(self.qubitsCount) # Classic
+        self.regQ = qiskit.QuantumRegister(self.qubitsCount, "QuantumRegister") # Quantum
+        self.regC = qiskit.ClassicalRegister(self.qubitsCount, "ClassicRegister") # Classic
 
         self.circuit = qiskit.QuantumCircuit(self.regQ, self.regC) # Circuit
 
