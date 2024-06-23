@@ -147,6 +147,7 @@ class Quantum:
             else:
                 print("Operator - " + result + " - used.")
         self.build()
+
     def build(self):
         self.circuit.measure(self.regQ, self.regC)
         print("Circuit was measured.")
@@ -156,9 +157,12 @@ class Quantum:
 
         self.saveImage(idOfJob)
         # self.loggCircuit(idOfJob)
-
+    def setupNewStack(self, newGatesStack):
+        self.gatesStack = newGatesStack
 
 stackOfGates = [["h", 1],["h", 2],["h", 3],["ccx", 4, 1, 2]]
 quantum = Quantum(stackOfGates, 5)
+quantum.run()
+
 
 quantum.run()
