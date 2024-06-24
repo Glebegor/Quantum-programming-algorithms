@@ -12,6 +12,7 @@ import os
 
 class Quantum:
     def __init__(self, gStack, qbCount):
+        self.id = 0
         self.qiskitVersion = qiskit.__version__
         self.imagesPath = "./Images" # Folder to Images
         self.loggerPath = "./Logger" # Folder to Loggs
@@ -37,11 +38,13 @@ class Quantum:
         )
         return QiskitRuntimeService()
     def connectBack(self, serviceIBM):
+        print(serviceIBM)
         return serviceIBM.backend("quantum device")
 
     # Logic
     def findId(self):
-        return time.ctime().replace(" ", "_").replace(":", "-")
+        self.id += 1
+        return time.ctime().replace(" ", "_").replace(":", "-") + "_" + str(self.id)
     def saveImage(self, name):
         self.circuit.draw(output='mpl', filename=self.imagesPath + "/" + name)
 
@@ -123,12 +126,17 @@ class Quantum:
         return gate
 
     def run(self):
+        self.regQ = qiskit.QuantumRegister(self.qubitsCount, "QRegister")  # Quantum
+        self.regC = qiskit.ClassicalRegister(self.qubitsCount, "CRegister")  # Classic
+        self.circuit = qiskit.QuantumCircuit(self.regQ, self.regC)
+
         for el in self.gatesStack:
             result = self.useGate(el)
             if result == None:
                 return
             else:
-                print("Operator - " + result + " - used.")
+                # print("Operator - " + result + " - used.")
+                pass
         self.build()
 
     def build(self):
@@ -153,5 +161,6 @@ stackOfGates = [["h", 1],["h", 2],["h", 3],["ccx", 4, 1, 2]]
 quantum = Quantum(stackOfGates, 5)
 quantum.run()
 
-
+quantum.setupNewStack([["h", 1],["h", 2],["h", 2],["ccx", 0, 1, 4]])
+quantum.run()
 quantum.run()
