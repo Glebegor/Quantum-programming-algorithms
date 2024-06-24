@@ -36,7 +36,10 @@ class Quantum:
             set_as_default=True
         )
         return QiskitRuntimeService()
+    def connectBack(self, serviceIBM):
+        return serviceIBM.backend("quantum device")
 
+    # Logic
     def findId(self):
         return time.ctime().replace(" ", "_").replace(":", "-")
     def saveImage(self, name):
