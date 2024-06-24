@@ -1,47 +1,11 @@
 import time
-
+from qiskit_ibm_runtime import QiskitRuntimeService
 import qiskit
 import qiskit_ibm_runtime
 import qiskit_aer
 import numpy as np
 import random as rand
 import os
-
-
-version = qiskit.__version__
-print("The version of Qiskit is -", version)
-
-# Quantum circuit
-quantumReg = qiskit.QuantumRegister(5)
-# Classical circuit
-classicalReg = qiskit.ClassicalRegister(5)
-
-# composed circuit of the q-reg and c-reg
-circuit = qiskit.QuantumCircuit(quantumReg, classicalReg)
-
-# Setup image folder
-imageFolder = "./Images/"
-
-circuit.h(quantumReg[0])
-circuit.h(quantumReg[3])
-circuit.h(quantumReg[4])
-
-circuit.measure(quantumReg, classicalReg)
-
-print(":)")
-
-
-# execute the circuit 1024 times
-job = qiskit_aer.AerSimulator(method='automatic').run(circuit,shots=1024)
-# get the result
-counts = job.result().get_counts(circuit)
-print(counts)
-
-
-
-
-
-
 
 
 # Projecting Quantum class
@@ -62,18 +26,34 @@ class Quantum:
         self.circuit = qiskit.QuantumCircuit(self.regQ, self.regC) # Circuit
 
         self.gates = ["h", "x", "z", "ry", "cx", "cu3", "ccx"]
+
+    # Ibm connection
+    def connIBMService(self):
+        QiskitRuntimeService.save_account(
+            channel="channel",
+            name="name",
+            token="token",
+            set_as_default=True
+        )
+        return QiskitRuntimeService()
+
     def findId(self):
         return time.ctime().replace(" ", "_").replace(":", "-")
     def saveImage(self, name):
         self.circuit.draw(output='mpl', filename=self.imagesPath + "/" + name)
 
     def loggCircuit(self, name):
-        with os.open(path=self.loggerPath + "/" + name + ".txt", flags=777) as openedFile:
-            for el in stackOfGates:
-                newRow = ""
-                for row in stackOfGates:
-                    newRow += str(row)
-                openedFile.write(newRow)
+        file_path = os.path.join(self.loggerPath, f"{name}.txt")
+        fd = os.open(file_path, os.O_WRONLY | os.O_CREAT | os.O_TRUNC, 0o666)
+        try:
+            with os.fdopen(fd, 'w') as openedFile:
+                for el in self.gatesStack:
+                    newRow = ""
+                    for row in el:
+                        newRow += str(row) + ", "
+                    openedFile.write(newRow + '\n')  # Add a newline after each row for better readability
+        except Exception as e:
+            raise e
 
     def isInCircuit(self, qubitIdList):
         for qubitId in qubitIdList:
@@ -156,7 +136,13 @@ class Quantum:
         print("Created job: " + idOfJob)
 
         self.saveImage(idOfJob)
-        # self.loggCircuit(idOfJob)
+        self.loggCircuit(idOfJob)
+
+        job = qiskit_aer.AerSimulator(method='automatic').run(self.circuit, shots=1024)
+        # get the result
+        counts = job.result().get_counts(self.circuit)
+        print(counts)
+
     def setupNewStack(self, newGatesStack):
         self.gatesStack = newGatesStack
 
