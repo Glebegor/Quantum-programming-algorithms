@@ -8,6 +8,8 @@ Here you can find a list of implemented algorithms:
 ### Hello world
 This is a simple quantum circuit that creates a superposition of 2 qubits and measures them.
 
+### Quantum teleportation
+This is a simple quantum circuit that creates a quantum teleportation of a qubit (our example is 1 and 3).
 
 ## References
 - [Qiskit Documentation](https://qiskit.org/documentation/)
@@ -19,5 +21,6 @@ This is a simple quantum circuit that creates a superposition of 2 qubits and me
 - [Q#](https://docs.microsoft.com/en-us/quantum/)
 - [QASM](https://en.wikipedia.org/wiki/OpenQASM)
 - [Quantum Computing](https://en.wikipedia.org/wiki/Quantum_computing)
+- 
 ## Authors
 - Hlib Arseniuk
