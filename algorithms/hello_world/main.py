@@ -28,19 +28,48 @@ def runSimulator(circuit: qk.circuit.QuantumCircuit, shorts_count: int) -> None:
     counts = job.result().get_counts(circuit)
     print(counts)
 
-def runIBM(circuit: qk.circuit.QuantumCircuit, shorts_count: int) -> None:
+
+def runIBM(circuit: qk.circuit.QuantumCircuit, shots_count: int) -> None:
     '''
     Run IBM backend.
     '''
 
+    # Save IBM account
     qk_runtime.QiskitRuntimeService.save_account(
-            channel="ibm_quantum",
-            name=os.getenv("IBM_NAME"),
-            token=os.getenv("IBM_TOKEN"),
-            set_as_default=True
+        channel="ibm_quantum",
+        name=os.getenv("IBM_NAME"),
+        token=os.getenv("IBM_TOKEN"),
+        set_as_default=True,
+        overwrite=True
     )
 
-    pass
+    service = qk_runtime.QiskitRuntimeService()
+
+    # Connect to the least busy backend
+    backends = service.backends(
+        filters=lambda x: x.configuration().n_qubits >= circuit.num_qubits
+                          and not x.configuration().simulator
+                          and x.status().operational
+    )
+
+    if not backends:
+        print("No suitable backends found.")
+        return
+
+    print("Backends: ", [backend.name for backend in backends])
+
+    backend_busy = min(backends, key=lambda x: x.status().pending_jobs)
+    print("The least busy backend is:", backend_busy.name)
+
+    # Create a session for the execution
+    with qk_runtime.Session(service=service, backend=backend_busy.name) as session:
+        sampler = qk_runtime.SamplerV2(session=session)
+        job = sampler.run(circuit, shots=shots_count)
+
+        print("Job ID:", job.job_id())
+        result = job.result()
+        print("Job status:", job.status())
+        print("Job result:", result)
 
 def algorithm(qb_count: int) -> qk.circuit.QuantumCircuit:
     '''
@@ -74,7 +103,6 @@ def main() -> None:
         runSimulator(circuit, shorts_count)
     else:
         print("Choose 1 or 2.")
-
 
 if __name__=="__main__":
     main()
