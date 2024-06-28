@@ -4,7 +4,8 @@ import dotenv
 import os
 
 import qiskit as qk
-import qiskit_ibm_runtime as qk_runtime
+from qiskit_ibm_runtime import QiskitRuntimeService, Session, SamplerV2, EstimatorV2
+from qiskit import transpile
 import qiskit_aer as qk_aer
 
 '''
@@ -35,7 +36,7 @@ def runIBM(circuit: qk.circuit.QuantumCircuit, shots_count: int) -> None:
     '''
 
     # Save IBM account
-    qk_runtime.QiskitRuntimeService.save_account(
+    QiskitRuntimeService.save_account(
         channel="ibm_quantum",
         name=os.getenv("IBM_NAME"),
         token=os.getenv("IBM_TOKEN"),
@@ -43,7 +44,7 @@ def runIBM(circuit: qk.circuit.QuantumCircuit, shots_count: int) -> None:
         overwrite=True
     )
 
-    service = qk_runtime.QiskitRuntimeService()
+    service = QiskitRuntimeService()
 
     # Connect to the least busy backend
     backends = service.backends(
@@ -61,10 +62,13 @@ def runIBM(circuit: qk.circuit.QuantumCircuit, shots_count: int) -> None:
     backend_busy = min(backends, key=lambda x: x.status().pending_jobs)
     print("The least busy backend is:", backend_busy.name)
 
+    # Transpile the circuit to match the backend's constraints
+    transpiled_circuit = transpile(circuit, backend=backend_busy)
+
     # Create a session for the execution
-    with qk_runtime.Session(service=service, backend=backend_busy.name) as session:
-        sampler = qk_runtime.SamplerV2(session=session)
-        job = sampler.run(circuit, shots=shots_count)
+    with Session(service=service, backend=backend_busy.name) as session:
+        sampler = SamplerV2(session=session)
+        job = sampler.run([transpiled_circuit], shots=shots_count)
 
         print("Job ID:", job.job_id())
         result = job.result()
