@@ -19,6 +19,5 @@ This is a simple quantum circuit that creates a superposition of 2 qubits and me
 - [Q#](https://docs.microsoft.com/en-us/quantum/)
 - [QASM](https://en.wikipedia.org/wiki/OpenQASM)
 - [Quantum Computing](https://en.wikipedia.org/wiki/Quantum_computing)
-- 
 ## Authors
 - Hlib Arseniuk
