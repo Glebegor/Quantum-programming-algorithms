@@ -31,11 +31,9 @@ def runSimulator(circuit: qk.circuit.QuantumCircuit, shorts_count: int) -> None:
     counts = job.result().get_counts(circuit)
     print(counts)
 
-
     plt.figure(figsize=(10, 6))
     plt.bar(counts.keys(), counts.values())
     plt.show()
-
 
 
 def runIBM(circuit: qk.circuit.QuantumCircuit, shots_count: int) -> None:
@@ -101,22 +99,19 @@ def algorithm(qb_count: int) -> qk.QuantumCircuit:
     circuit.ccx(regQuantum[1], regQuantum[0], regQuantum[2])
 
     circuit.cx(regQuantum[5], regQuantum[4])
-    circuit.ccz(regQuantum[2], regQuantum[4], regQuantum[3])
 
+    circuit.mcx([regQuantum[2], regQuantum[4]], regQuantum[3])
+    circuit.h(regQuantum[3])
     # RESET
     circuit.barrier()
-
-    circuit.h(regQuantum[0])
-    circuit.h(regQuantum[1])
-    circuit.h(regQuantum[3])
-    circuit.h(regQuantum[4])
-    circuit.h(regQuantum[5])
 
     circuit.mcx([regQuantum[0], regQuantum[1]], regQuantum[2])
     circuit.ccx(regQuantum[0], regQuantum[1], regQuantum[2])
     circuit.ccx(regQuantum[1], regQuantum[0], regQuantum[2])
 
+    circuit.cx(regQuantum[5], regQuantum[4])
     circuit.barrier()
+
     #RESET END
 
     circuit.h(regQuantum[0])
@@ -131,7 +126,11 @@ def algorithm(qb_count: int) -> qk.QuantumCircuit:
     circuit.x(regQuantum[4])
     circuit.x(regQuantum[5])
 
+
+    circuit.h(regQuantum[5])
     circuit.mcx([regQuantum[0], regQuantum[1], regQuantum[3], regQuantum[4]], regQuantum[5])
+    circuit.h(regQuantum[5])
+
 
     circuit.x(regQuantum[0])
     circuit.x(regQuantum[1])
