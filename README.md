@@ -11,6 +11,9 @@ This is a simple quantum circuit that creates a superposition of 2 qubits and me
 ### Quantum teleportation
 This is a simple quantum circuit that creates a quantum teleportation of a qubit (our example is 1 and 3).
 
+### Grover algorithm
+This is a quantum algorithm that uses Grover's algorithm to search for a target state in a quantum database. The algorithm is implemented in Qiskit and uses the IBM Quantum Experience to run the quantum circuits.
+
 ## References
 - [Qiskit Documentation](https://qiskit.org/documentation/)
 - [IBM Quantum Experience](https://quantum-computing.ibm.com/)
