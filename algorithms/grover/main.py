@@ -2,6 +2,7 @@ import numpy as np
 import random as rand
 import dotenv
 import os
+import matplotlib.pyplot as plt
 
 import qiskit as qk
 from qiskit_ibm_runtime import QiskitRuntimeService, Session, SamplerV2, EstimatorV2
@@ -29,6 +30,9 @@ def runSimulator(circuit: qk.circuit.QuantumCircuit, shorts_count: int) -> None:
     counts = job.result().get_counts(circuit)
     print(counts)
 
+    plt.figure(figsize=(10, 6))
+    plt.bar(counts.keys(), counts.values())
+    plt.show()
 
 def runIBM(circuit: qk.circuit.QuantumCircuit, shots_count: int) -> None:
     '''
