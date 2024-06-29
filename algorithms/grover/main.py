@@ -94,6 +94,18 @@ def algorithm(qb_count: int) -> qk.QuantumCircuit:
     circuit.h(regQuantum[0])
     circuit.h(regQuantum[1])
 
+    # This algorithm has more implementation, here is the simple one.
+    # circuit.h(regQuantum[0])
+    # circuit.h(regQuantum[1])
+    # circuit.cz(regQuantum[1], regQuantum[0])
+    # circuit.h(regQuantum[0])
+    # circuit.h(regQuantum[1])
+    # circuit.x(regQuantum[0])
+    # circuit.x(regQuantum[1])
+    # circuit.cz(regQuantum[0], regQuantum[1])
+    # circuit.h(regQuantum[0])
+    # circuit.h(regQuantum[1])
+
     circuit.measure(regQuantum, regClassic)
 
     return circuit
