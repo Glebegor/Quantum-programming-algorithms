@@ -9,6 +9,7 @@ from qiskit_ibm_runtime import QiskitRuntimeService, Session, SamplerV2, Estimat
 from qiskit import transpile
 import qiskit_aer as qk_aer
 from qiskit.circuit.library import MCXGate, ZGate
+from qiskit.circuit.library.standard_gates import HGate, XGate, CXGate, CCXGate
 
 '''
 Created by Hlib Arseniuk (Glebegor) 2024.
@@ -81,72 +82,117 @@ def runIBM(circuit: qk.circuit.QuantumCircuit, shots_count: int) -> None:
         print("Job status:", job.status())
         print("Job result:", result)
 
+# def algorithm(qb_count: int) -> qk.QuantumCircuit:
+#     regQuantum = qk.QuantumRegister(qb_count, "q_reg")
+#     regClassic = qk.ClassicalRegister(qb_count, "c_reg")
+#
+#     circuit = qk.QuantumCircuit(regQuantum, regClassic)
+#
+#
+#     circuit.h(regQuantum[0])
+#     circuit.h(regQuantum[1])
+#     circuit.h(regQuantum[3])
+#     circuit.h(regQuantum[4])
+#     circuit.h(regQuantum[5])
+#
+#     circuit.mcx([regQuantum[0], regQuantum[1]], regQuantum[2])
+#     circuit.ccx(regQuantum[0], regQuantum[1], regQuantum[2])
+#     circuit.ccx(regQuantum[1], regQuantum[0], regQuantum[2])
+#
+#     circuit.cx(regQuantum[5], regQuantum[4])
+#
+#     circuit.mcx([regQuantum[2], regQuantum[4]], regQuantum[3])
+#     circuit.h(regQuantum[3])
+#     # RESET
+#     circuit.barrier()
+#
+#     circuit.mcx([regQuantum[0], regQuantum[1]], regQuantum[2])
+#     circuit.ccx(regQuantum[0], regQuantum[1], regQuantum[2])
+#     circuit.ccx(regQuantum[1], regQuantum[0], regQuantum[2])
+#
+#     circuit.cx(regQuantum[5], regQuantum[4])
+#     circuit.barrier()
+#
+#     #RESET END
+#
+#     circuit.h(regQuantum[0])
+#     circuit.h(regQuantum[1])
+#     circuit.h(regQuantum[3])
+#     circuit.h(regQuantum[4])
+#     circuit.h(regQuantum[5])
+#
+#     circuit.x(regQuantum[0])
+#     circuit.x(regQuantum[1])
+#     circuit.x(regQuantum[3])
+#     circuit.x(regQuantum[4])
+#     circuit.x(regQuantum[5])
+#
+#
+#     circuit.h(regQuantum[5])
+#     circuit.mcx([regQuantum[0], regQuantum[1], regQuantum[3], regQuantum[4]], regQuantum[5])
+#     circuit.h(regQuantum[5])
+#
+#
+#     circuit.x(regQuantum[0])
+#     circuit.x(regQuantum[1])
+#     circuit.x(regQuantum[3])
+#     circuit.x(regQuantum[4])
+#     circuit.x(regQuantum[5])
+#
+#     circuit.h(regQuantum[0])
+#     circuit.h(regQuantum[1])
+#     circuit.h(regQuantum[3])
+#     circuit.h(regQuantum[4])
+#     circuit.h(regQuantum[5])
+#
+#     circuit.measure(regQuantum, regClassic)
+#
+#     return circuit
+
 def algorithm(qb_count: int) -> qk.QuantumCircuit:
-    regQuantum = qk.QuantumRegister(qb_count, "q_reg")
-    regClassic = qk.ClassicalRegister(qb_count, "c_reg")
+    reg_quantum = qk.QuantumRegister(qb_count, "q_reg")
+    reg_classic = qk.ClassicalRegister(qb_count, "c_reg")
 
-    circuit = qk.QuantumCircuit(regQuantum, regClassic)
+    circuit = qk.QuantumCircuit(reg_quantum, reg_classic)
 
+    circuit.h([reg_quantum[0], reg_quantum[1], reg_quantum[3], reg_quantum[4], reg_quantum[5]])
 
-    circuit.h(regQuantum[0])
-    circuit.h(regQuantum[1])
-    circuit.h(regQuantum[3])
-    circuit.h(regQuantum[4])
-    circuit.h(regQuantum[5])
+    circuit.mcx([reg_quantum[0], reg_quantum[1]], reg_quantum[2])
+    circuit.ccx(reg_quantum[0], reg_quantum[1], reg_quantum[2])
+    circuit.ccx(reg_quantum[1], reg_quantum[0], reg_quantum[2])
 
-    circuit.mcx([regQuantum[0], regQuantum[1]], regQuantum[2])
-    circuit.ccx(regQuantum[0], regQuantum[1], regQuantum[2])
-    circuit.ccx(regQuantum[1], regQuantum[0], regQuantum[2])
+    circuit.cx(reg_quantum[5], reg_quantum[4])
 
-    circuit.cx(regQuantum[5], regQuantum[4])
-
-    circuit.mcx([regQuantum[2], regQuantum[4]], regQuantum[3])
-    circuit.h(regQuantum[3])
+    circuit.mcx([reg_quantum[2], reg_quantum[4]], reg_quantum[3])
+    circuit.h(reg_quantum[3])
     # RESET
     circuit.barrier()
 
-    circuit.mcx([regQuantum[0], regQuantum[1]], regQuantum[2])
-    circuit.ccx(regQuantum[0], regQuantum[1], regQuantum[2])
-    circuit.ccx(regQuantum[1], regQuantum[0], regQuantum[2])
+    circuit.mcx([reg_quantum[0], reg_quantum[1]], reg_quantum[2])
+    circuit.ccx(reg_quantum[0], reg_quantum[1], reg_quantum[2])
+    circuit.ccx(reg_quantum[1], reg_quantum[0], reg_quantum[2])
 
-    circuit.cx(regQuantum[5], regQuantum[4])
+    circuit.cx(reg_quantum[5], reg_quantum[4])
     circuit.barrier()
 
-    #RESET END
+    # RESET END
 
-    circuit.h(regQuantum[0])
-    circuit.h(regQuantum[1])
-    circuit.h(regQuantum[3])
-    circuit.h(regQuantum[4])
-    circuit.h(regQuantum[5])
+    circuit.h([reg_quantum[0], reg_quantum[1], reg_quantum[3], reg_quantum[4], reg_quantum[5]])
 
-    circuit.x(regQuantum[0])
-    circuit.x(regQuantum[1])
-    circuit.x(regQuantum[3])
-    circuit.x(regQuantum[4])
-    circuit.x(regQuantum[5])
+    circuit.x([reg_quantum[0], reg_quantum[1], reg_quantum[3], reg_quantum[4], reg_quantum[5]])
 
+    circuit.h(reg_quantum[5])
+    circuit.mcx([reg_quantum[0], reg_quantum[1], reg_quantum[3], reg_quantum[4]], reg_quantum[5])
+    circuit.h(reg_quantum[5])
 
-    circuit.h(regQuantum[5])
-    circuit.mcx([regQuantum[0], regQuantum[1], regQuantum[3], regQuantum[4]], regQuantum[5])
-    circuit.h(regQuantum[5])
+    circuit.x([reg_quantum[0], reg_quantum[1], reg_quantum[3], reg_quantum[4], reg_quantum[5]])
 
+    circuit.h([reg_quantum[0], reg_quantum[1], reg_quantum[3], reg_quantum[4], reg_quantum[5]])
 
-    circuit.x(regQuantum[0])
-    circuit.x(regQuantum[1])
-    circuit.x(regQuantum[3])
-    circuit.x(regQuantum[4])
-    circuit.x(regQuantum[5])
-
-    circuit.h(regQuantum[0])
-    circuit.h(regQuantum[1])
-    circuit.h(regQuantum[3])
-    circuit.h(regQuantum[4])
-    circuit.h(regQuantum[5])
-
-    circuit.measure(regQuantum, regClassic)
+    circuit.measure(reg_quantum, reg_classic)
 
     return circuit
+
 def main() -> None:
     dotenv.load_dotenv()
 
