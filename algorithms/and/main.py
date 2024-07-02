@@ -12,7 +12,7 @@ import qiskit_aer as qk_aer
 '''
 Created by Hlib Arseniuk (Glebegor) 2024.
 Application for Quantum Computing.
-OR.
+And.
 Qubits: 3
 '''
 
@@ -89,11 +89,9 @@ def algorithm(qb_count: int) -> qk.QuantumCircuit:
     circuit.h(regQuantum[0])
     circuit.h(regQuantum[1])
 
-    circuit.cx(0, 2)
-    circuit.cx(1, 2)
     circuit.ccx(0, 1, 2)
 
-    circuit.measure()
+    circuit.measure(regQuantum, regClassic)
 
     return circuit
 def main() -> None:

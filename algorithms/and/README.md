@@ -1,6 +1,6 @@
-# Or condition
+# And condition
 ## Description
-This is example of condition or in quantum computing.
+This is example of condition and in quantum computing.
 ![Circuit diagram](./circuit.png)
 ## Env
 
