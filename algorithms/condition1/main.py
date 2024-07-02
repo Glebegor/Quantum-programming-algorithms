@@ -91,28 +91,29 @@ def algorithm(qb_count: int) -> qk.QuantumCircuit:
 
     circuit.h([reg_quantum[0], reg_quantum[1], reg_quantum[3], reg_quantum[4], reg_quantum[5]])
 
-    circuit.mcx([reg_quantum[0], reg_quantum[1]], reg_quantum[2])
     circuit.ccx(reg_quantum[0], reg_quantum[1], reg_quantum[2])
-    circuit.ccx(reg_quantum[1], reg_quantum[0], reg_quantum[2])
+    circuit.cx(reg_quantum[0], reg_quantum[2])  # CNOT gate with control qubit 0 and target qubit 2
+    circuit.cx(reg_quantum[1], reg_quantum[2])  # CNOT gate with control qubit 1 and target qubit 2
 
     circuit.cx(reg_quantum[5], reg_quantum[4])
 
+    # CCZ garte
+    circuit.h(reg_quantum[3])
     circuit.mcx([reg_quantum[2], reg_quantum[4]], reg_quantum[3])
     circuit.h(reg_quantum[3])
+
     # RESET
     circuit.barrier()
 
-    circuit.mcx([reg_quantum[0], reg_quantum[1]], reg_quantum[2])
     circuit.ccx(reg_quantum[0], reg_quantum[1], reg_quantum[2])
-    circuit.ccx(reg_quantum[1], reg_quantum[0], reg_quantum[2])
+    circuit.cx(reg_quantum[0], reg_quantum[2])  # CNOT gate with control qubit 0 and target qubit 2
+    circuit.cx(reg_quantum[1], reg_quantum[2])  # CNOT gate with control qubit 1 and target qubit 2
 
     circuit.cx(reg_quantum[5], reg_quantum[4])
     circuit.barrier()
-
     # RESET END
 
     circuit.h([reg_quantum[0], reg_quantum[1], reg_quantum[3], reg_quantum[4], reg_quantum[5]])
-
     circuit.x([reg_quantum[0], reg_quantum[1], reg_quantum[3], reg_quantum[4], reg_quantum[5]])
 
     circuit.h(reg_quantum[5])
@@ -120,7 +121,6 @@ def algorithm(qb_count: int) -> qk.QuantumCircuit:
     circuit.h(reg_quantum[5])
 
     circuit.x([reg_quantum[0], reg_quantum[1], reg_quantum[3], reg_quantum[4], reg_quantum[5]])
-
     circuit.h([reg_quantum[0], reg_quantum[1], reg_quantum[3], reg_quantum[4], reg_quantum[5]])
 
     circuit.measure(reg_quantum, reg_classic)
