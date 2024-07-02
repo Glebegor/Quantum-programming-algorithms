@@ -90,9 +90,7 @@ def algorithm(qb_count: int) -> qk.QuantumCircuit:
     circuit = qk.QuantumCircuit(reg_quantum, reg_classic)
 
     circuit.h([reg_quantum[0], reg_quantum[1], reg_quantum[3], reg_quantum[4], reg_quantum[5]])
-
     circuit.mcx([reg_quantum[0], reg_quantum[1]], reg_quantum[2])
-
     circuit.cx(reg_quantum[5], reg_quantum[4])
 
     # CCZ garte
@@ -103,28 +101,16 @@ def algorithm(qb_count: int) -> qk.QuantumCircuit:
     circuit.mcx([reg_quantum[0], reg_quantum[1]], reg_quantum[2])
     circuit.cx(reg_quantum[5], reg_quantum[4])
 
-    # RESET
-    circuit.barrier()
-
-    # circuit.mcx([reg_quantum[0], reg_quantum[1]], reg_quantum[2])
-    # circuit.ccx(reg_quantum[0], reg_quantum[1], reg_quantum[2])
-    # circuit.ccx(reg_quantum[1], reg_quantum[0], reg_quantum[2])
-    #
-    # circuit.cx(reg_quantum[5], reg_quantum[4])
-    circuit.barrier()
-
-    # RESET END
-
+    # DIFFUSION
     circuit.h([reg_quantum[0], reg_quantum[1], reg_quantum[3], reg_quantum[4], reg_quantum[5]])
-
     circuit.x([reg_quantum[0], reg_quantum[1], reg_quantum[3], reg_quantum[4], reg_quantum[5]])
 
+    # CCZ garte
     circuit.h(reg_quantum[5])
     circuit.mcx([reg_quantum[0], reg_quantum[1], reg_quantum[3], reg_quantum[4]], reg_quantum[5])
     circuit.h(reg_quantum[5])
 
     circuit.x([reg_quantum[0], reg_quantum[1], reg_quantum[3], reg_quantum[4], reg_quantum[5]])
-
     circuit.h([reg_quantum[0], reg_quantum[1], reg_quantum[3], reg_quantum[4], reg_quantum[5]])
 
     circuit.measure(reg_quantum, reg_classic)
