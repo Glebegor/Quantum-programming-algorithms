@@ -1,4 +1,4 @@
-# Or condition
+# Xor condition
 ## Description
 This is example of condition xor in quantum computing.
 ![Circuit diagram](./circuit.png)

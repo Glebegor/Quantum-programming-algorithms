@@ -93,7 +93,7 @@ def algorithm(qb_count: int) -> qk.QuantumCircuit:
     circuit.cx(1, 2)
     circuit.ccx(0, 1, 2)
 
-    circuit.measure()
+    circuit.measure(regQuantum, regClassic)
 
     return circuit
 def main() -> None:

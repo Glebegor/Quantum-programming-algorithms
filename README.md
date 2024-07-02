@@ -9,10 +9,13 @@ Here you can find a list of implemented algorithms:
 This is a simple quantum circuit that creates a superposition of 2 qubits and measures them.
 
 ### OR in quantum computing
+This is example of condition or in quantum computing.
 
 ### XOR in quantum computing
+This is example of condition xor in quantum computing.
 
 ### AND in quantum computing
+This is example of condition and in quantum computing.
 
 ### Quantum teleportation
 This is a simple quantum circuit that creates a quantum teleportation of a qubit (our example is 1 and 3).

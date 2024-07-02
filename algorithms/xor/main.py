@@ -89,7 +89,8 @@ def algorithm(qb_count: int) -> qk.QuantumCircuit:
     circuit.h(regQuantum[0])
     circuit.h(regQuantum[1])
 
-    circuit.ccx(0, 1, 2)
+    circuit.cx(0, 2)  # CNOT gate with control qubit 0 and target qubit 2
+    circuit.cx(1, 2)  # CNOT gate with control qubit 1 and target qubit 2
 
     circuit.measure(regQuantum, regClassic)
 
